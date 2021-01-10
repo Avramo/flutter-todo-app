@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_app/models/task_data.dart';
 
 class AddTaskScreen extends StatelessWidget {
-  TextEditingController _textEditingController = TextEditingController();
-  final Function addTaskCallback;
-
-  AddTaskScreen({@required this.addTaskCallback});
+  final TextEditingController _textEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +31,14 @@ class AddTaskScreen extends StatelessWidget {
               controller: _textEditingController,
               autofocus: true,
               onChanged: (newValue) {
-                // print(newValue);
+                print(newValue);
               },
             ),
             FlatButton(
               onPressed: () {
                 if (_textEditingController.text.isNotEmpty) {
-                  addTaskCallback(_textEditingController.text);
+                  Provider.of<TaskData>(context, listen: false)
+                      .addTask(title: _textEditingController.text);
                   Navigator.pop(context);
                 }
               },
